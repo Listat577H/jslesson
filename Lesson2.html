@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, user-scalable=yes" />
+		<meta name="format-detection" content="telephone=no"/>
+		<title>Lesson1</title>
+		<link rel="icon" href="images/favicon.png">
+		<link rel="stylesheet" href="css/all.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="container">
+				<button class="btnCalck">click calck</button>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				var calculator = {
+					read:function(){
+						this.enter1 = parseInt(prompt('Введите число1',''));
+						this.enter2 = parseInt(prompt('Введите число2',''));
+					},
+					sum:function(){
+						result = this.enter1+this.enter2;
+						return result;
+					},
+					mul:function(){
+						result = this.enter1*this.enter2;
+						return result;
+					}
+				}
+				$('.btnCalck').click(function(){
+					calculator.read();
+					alert( 'Сложение '+ calculator.sum() );
+					alert( 'Умножение '+ calculator.mul() );
+				});
+			});
+		</script>
+	</body>
+</html>

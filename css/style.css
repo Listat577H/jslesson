@@ -163,3 +163,63 @@ textarea::-moz-placeholder{
 	display: block;
 	clear: both;
 }
+.btnList{
+	list-style: none; 
+	margin: 0;
+	padding:0;
+}
+.btnList>li{
+	margin: 0 10px;
+	display: inline-block;
+	vertical-align: top;
+}
+.clock{
+	width: 181px;
+	height: 181px;
+	position: relative;
+	border-radius: 50%;
+	border:1px solid #000;
+	background-color: #fbfbfb;
+}
+.clock:before{
+	content: '';
+	position: absolute;
+	background-color: #000;
+	width: 5px;
+	height: 5px;
+	left: 50%;
+	top: 50%;
+	margin: -3px 0 0 -3px;
+	z-index: 8;
+	border-radius: 50%;
+}
+.clock .minutes,
+.clock .seconds,
+.clock .hours{
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	width: 100%;
+	left: 0;
+	height: 100%;
+}
+.clock .minutes:before,
+.clock .seconds:before,
+.clock .hours:before{
+	content: '';
+	position: absolute;
+	width: 1px;
+	height: 80px;
+	left: 50%;
+	bottom: 50%;
+	margin: 0 0 0 -1px;
+	background-color: black;
+}
+.clock .minutes:before{
+	background-color: blue;
+	height: 60px;
+}
+.clock .hours:before{
+	background-color: red;
+	height: 40px;
+}
