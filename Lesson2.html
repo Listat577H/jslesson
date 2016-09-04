@@ -12,10 +12,49 @@
 	<body>
 		<div id="wrapper">
 			<div class="container">
-				<button class="btnCalck">click calck</button>
+				<button class="btnCalck btn">click calck</button>
+				<br/><br/>
+				---------------------------------- lamp --------------------------------------
+				<br/><br/>
+				<h1>Wiring</h1>
+				<h2>Scheme</h2>
+				<form acion="" class="lampWrap">
+					<div class="col">
+						<div class="wrap">
+							<div class="row"><input data-input1 data-toggle="tooltip" title="Введите 0 или 1" class="num" type="text" placeholder="1,0" maxlength="1"></div>
+							<div class="row"><input data-input2 data-toggle="tooltip" title="Введите 0 или 1" class="num" type="text" placeholder="1,0" maxlength="1"></div>
+						</div>
+						<div class="wrap">
+							<div class="row"><input data-input3 data-toggle="tooltip" title="Введите 0 или 1" class="num" type="text" placeholder="1,0" maxlength="1"></div>
+						</div>
+					</div>
+					<div class="col col1">
+						<div class="wrap">
+							<div class="row"><input data-result1 data-toggle="tooltip" title="Введите A(and), O(or), X(xor)" class="log" type="text" placeholder="A,O,X" maxlength="1"><span class="intermediateResult"></span></div>
+						</div>
+						<div class="wrap">
+							<div class="row"><input data-result2 data-toggle="tooltip" title="Введите N(not)" class="log" type="text" placeholder="N" maxlength="1"><span class="intermediateResult"></span></div>
+						</div>
+					</div>
+					<div class="col col2">
+						<div class="wrap">
+							<div class="row"><input data-result3 data-toggle="tooltip" title="Введите A(and), O(or), X(xor)" class="log" type="text" placeholder="A,O,X" maxlength="1"><span class="intermediateResult"></span></div>
+						</div>
+					</div>
+					<div class="col col2">
+						<div class="wrap">
+							<div class="row"><span class="result resultLamp"></span></div>
+						</div>
+					</div>
+					<div class="btnWrap">
+						<button class="btnLamp btn">Получить результат</button>
+						<button class="btnReset btn" type="reset">Очистить</button>
+					</div>
+				</form>
 			</div>
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script>
 			$(document).ready(function() {
 				var calculator = {
@@ -36,6 +75,100 @@
 					calculator.read();
 					alert( 'Сложение '+ calculator.sum() );
 					alert( 'Умножение '+ calculator.mul() );
+				});
+				//----------- lamp
+				$('[data-toggle="tooltip"]').tooltip();
+				$('.lampWrap input').bind('change keyup input click',function(event){
+					if($(this).hasClass('num')){
+						if (this.value.match(/[^0-1]/g)) {
+							this.value = this.value.replace(/[^0-1]/g, '');
+						}
+					}else{
+						if (typeof $(this).data('result2') !== 'undefined') {
+							if (this.value.match(/[^nN]/g)) {
+								this.value = this.value.replace(/[^nN]/g, '');
+							}
+						}else{
+							if (this.value.match(/[^aoxAOX]/g)) {
+								this.value = this.value.replace(/[^aoxAOX]/g, '');
+							}
+						}
+					}
+				});
+				$('.btnLamp').click(function(){
+					var input1 = $('[data-input1]').val(),
+					input2 = $('[data-input2]').val(),
+					input3 = $('[data-input3]').val(),
+					result1 = $('[data-result1]').val(),
+					result2 = $('[data-result2]').val(),
+					result3 = $('[data-result3]').val(),
+					hintResult = '.intermediateResult';
+					switch (result1) {
+						case 'a':
+						case 'A':
+							result1 = input1 == 1 && input2 == 1 ? 1 : 0;
+							break;
+						case 'o':
+						case 'O':
+							result1 = input1 == 1 || input2 == 1 ? 1 : 0;
+							break;
+						case 'x':
+						case 'x':
+							result1 = ( input1 == 1 && input2 != 1 ) || ( input1 != 1 && input2 == 1 ) ? 1 : 0;
+							break;
+						default:
+							error();
+							alert( 'Заполните все поля' );
+							return false;
+					}
+					$('[data-result1]').parent().find(hintResult).text(result1);
+					switch (result2) {
+						case 'n':
+						case 'N':
+							result2 = input3 == 0 ? 1 : 0;
+							break;
+						default:
+							error();
+							alert( 'Заполните все поля' );
+							return false;
+					}
+					$('[data-result2]').parent().find(hintResult).text(result2);
+					switch (result3) {
+						case 'a':
+						case 'A':
+							result3 = result1 == 1 && result2 == 1 ? 1 : 0;
+							break;
+						case 'o':
+						case 'O':
+							result3 = result1 == 1 || result2 == 1 ? 1 : 0;
+							break;
+						case 'x':
+						case 'x':
+							result3 = ( result1 == 1 && result2 != 1 ) || ( result1 != 1 && result2 == 1 ) ? 1 : 0;
+							break;
+						default:
+							error();
+							alert( 'Заполните все поля' );
+							return false;
+					}
+					function error(){
+						$('.lampWrap input').each(function(){
+							if($(this).val() =='') $(this).addClass('error');
+						});
+					}
+					$('[data-result3]').parent().find(hintResult).text(result3);
+					$('.resultLamp').text(result3).closest('.lampWrap').addClass('activeIntermediateResult');
+					return false;
+				});
+				$('.btnReset').click(function(){
+					 $('input').removeClass('error');
+				});
+				$('.lampWrap input').bind('blur focus',function(){
+					 if($(this).val() == ''){
+					 	$(this).addClass('error');
+					 }else{
+					 	$(this).removeClass('error');
+					 }
 				});
 			});
 		</script>
