@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, user-scalable=yes" />
+		<meta name="format-detection" content="telephone=no"/>
+		<title>Lesson1</title>
+		<link rel="icon" href="images/favicon.png">
+		<link rel="stylesheet" href="css/all.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="container">
+				<div class="clock">
+					<div class="seconds"></div>
+					<div class="minutes"></div>
+					<div class="hours"></div>
+				</div>
+			</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				var timer = function initDate(){
+					var date= new Date(),
+					rotate = 360,
+					hours=(date.getHours()*rotate)/12,
+					minutes=(date.getMinutes()*rotate)/60,
+					seconds=(date.getSeconds()*rotate)/360;
+					$('.hours').css({
+						'transform':'rotate('+hours+'deg)'
+					});
+					$('.minutes').css({
+						'transform':'rotate('+minutes+'deg)'
+					});
+					$('.seconds').css({
+						'transform':'rotate('+seconds+'deg)'
+					});
+				}
+				setInterval(timer, 1000);
+			});
+		</script>
+	</body>
+</html>
